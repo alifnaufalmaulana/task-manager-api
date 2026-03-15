@@ -1,12 +1,22 @@
 const express = require('express');
+const db = require('./config/database');
+
+const authRoutes = require('./routes/authRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+
 const app = express();
 
 app.use(express.json());
+
+app.use('/api', authRoutes);
+app.use('/api', taskRoutes);
 
 app.get('/', (req, res) => {
   res.send('Task Manager API running');
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
