@@ -1,6 +1,14 @@
 const taskModel = require('../models/taskModel');
+const taskValidator = require('../validators/taskValidator');
 
 const createTask = (req, res) => {
+  const { error } = taskValidator.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({
+      message: error.details[0].message,
+    });
+  }
   const { title, description } = req.body;
 
   const newTask = {
@@ -84,4 +92,5 @@ module.exports = {
   getTasks,
   updateTask,
   deleteTask,
+  taskValidator,
 };
